@@ -294,7 +294,7 @@ function ProductList({ onHomeClick }) {
                                             <img src={plant.image} className="product-image"></img>
                                             <h3 className="product-price">{plant.cost}</h3>
                                             <p><i>{plant.description}</i></p>
-                                            <button onClick={() => {handleAddToCart(plant)}} className="product-button">Add to Cart</button>
+                                            {plant.name in addedToCart  ? <button className="product-button added-to-cart">Added to Cart</button> : <button onClick={() => {handleAddToCart(plant)}} className="product-button">Add to Cart</button>}
                                         </div>
                                     )
                                 })}
