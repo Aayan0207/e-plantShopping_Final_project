@@ -7,13 +7,14 @@ export const CartSlice = createSlice({
   },
   reducers: {
     addItem: (state, action) => {
-    
+        state.items[action.payload.name] = {quantity:1,price:action.payload.cost};
     },
     removeItem: (state, action) => {
+        const plant = action.payload.name;
+        delete state.items.index;
     },
     updateQuantity: (state, action) => {
-
-    
+        state.items[action.payload.name].quantity = action.payload.quantity;
     },
   },
 });
