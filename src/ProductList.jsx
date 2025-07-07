@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, removeItem, updateQuantity } from './CartSlice';
 import './ProductList.css'
 import CartItem from './CartItem';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    const [addedToCart, setAddedToCart] = useState({});
+    const dispatch = useDispatch();
+    const handleAddToCart = (plant_name) => {
+        dispatch(addItem(plant_name));
+        setAddedToCart({...addedToCart, [plant_name]:true});
+    }
 
     const plantsArray = [
         {
@@ -92,7 +100,7 @@ function ProductList({ onHomeClick }) {
             category: "Insect Repellent Plants",
             plants: [
                 {
-                    name: "oregano",
+                    name: "Oregano",
                     image: "https://cdn.pixabay.com/photo/2015/05/30/21/20/oregano-790702_1280.jpg",
                     description: "The oregano plants contains compounds that can deter certain insects.",
                     cost: "$10"
@@ -274,8 +282,26 @@ function ProductList({ onHomeClick }) {
             </div>
             {!showCart ? (
                 <div className="product-grid">
-
-
+                    {plantsArray.map((plant_category,index) => {
+                        return(
+                            <>
+                        <h1 className="plant_heading">{plant_category.category}</h1>
+                            <div key={index} className="product-list">
+                                {plant_category.plants.map((plant,id) => {
+                                    return(
+                                        <div className="product-card" key={id}>
+                                            <h3 className="product-title">{plant.name}</h3>
+                                            <img src={plant.image} className="product-image"></img>
+                                            <h3 className="product-price">{plant.cost}</h3>
+                                            <p><i>{plant.description}</i></p>
+                                            <button onClick={() => {handleAddToCart(plant.name)}} className="product-button">Add to Cart</button>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            </>
+                        )
+                    })}
                 </div>
             ) : (
                 <CartItem onContinueShopping={handleContinueShopping} />
